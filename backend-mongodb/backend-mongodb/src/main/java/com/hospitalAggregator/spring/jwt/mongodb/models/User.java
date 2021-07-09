@@ -48,16 +48,16 @@ public class User {
   @Size(min = 3, max = 50)
   private String district;
 
-  @NotBlank
+//  @NotBlank
   @Size(min = 3, max = 50)
-  private String state;
+  private String hospstate;
   
   @NotBlank
   @Size(max = 1000)
   private String aboutus;
 
   @NotBlank
-  @Pattern(regexp="(^$|[0-9]{4}-[0-9]{2}-[0-9]{4})")
+  @Pattern(regexp="(^$|[0-9]{4}[0-9]{2}[0-9]{4})")
   private String mobile;
   
 
@@ -77,11 +77,12 @@ public class User {
   }
 
   public User(String hospname, String hospspec, 
-		  String district, String state, 
+		  String district, String hospstate, 
 		  String ownership, String year, 
-		  String username, String email, 
-		  String password, String about,
-		  String mobile, String website) {
+		  String email,String website, 
+		  String mobile,String about,
+		  String username,String password 
+		   ) {
 	  
     this.username = username;
     this.email = email;
@@ -89,7 +90,7 @@ public class User {
     this.hospname = hospname;
     this.hospspec = hospspec;
     this.district = district;
-    this.state = state;
+    this.hospstate = hospstate;
     this.ownership = ownership;
     this.year = year;
     this.aboutus = about;
@@ -162,12 +163,12 @@ public class User {
       this.district = district;
   }
 
-  public String getState() {
-      return state;
+  public String gethospState() {
+      return hospstate;
   }
 
-  public void setState(String state) {
-      this.state = state;
+  public void setState(String hospstate) {
+      this.hospstate = hospstate;
   }
 
   public String getOwnership() {

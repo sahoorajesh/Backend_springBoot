@@ -23,16 +23,16 @@ public class SignupRequest {
     @Size(min = 3, max = 50)
     private String district;
  
-    @NotBlank
+//    @NotBlank
     @Size(min = 3, max = 50)
-    private String state;
+    private String hospstate;
     
     @NotBlank
     @Size(max = 1000)
     private String aboutus;
  
     @NotBlank
-    @Pattern(regexp="(^$|[0-9]{4}-[0-9]{2}-[0-9]{4})")
+    @Pattern(regexp="(^$|[0-9]{4}[0-9]{2}[0-9]{4})")
     private String mobile;
     
     @NotBlank
@@ -91,12 +91,12 @@ public class SignupRequest {
         this.district = district;
     }
  
-    public String getState() {
-        return state;
+    public String gethospState() {
+        return hospstate;
     }
  
-    public void setState(String state) {
-        this.state = state;
+    public void setState(String hospstate) {
+        this.hospstate = hospstate;
     }
  
     public String getOwnership() {

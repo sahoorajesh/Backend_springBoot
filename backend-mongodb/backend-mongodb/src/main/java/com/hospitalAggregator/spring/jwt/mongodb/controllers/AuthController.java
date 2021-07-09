@@ -89,7 +89,7 @@ public class AuthController {
 
 		// Create new user's account
 		User user = new User(signUpRequest.getHospname(),signUpRequest.getHospspec(),
-							 signUpRequest.getDistrict(),signUpRequest.getState(),
+							 signUpRequest.getDistrict(),signUpRequest.gethospState(),
 							 signUpRequest.getOwnership(),signUpRequest.getYear(),
 							 signUpRequest.getEmail(),signUpRequest.getWebsite(),
 							 signUpRequest.getMobile(),signUpRequest.getAboutus(),

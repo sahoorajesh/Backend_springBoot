@@ -22,13 +22,11 @@ public class TestController {
 //	}
 
 	@GetMapping("/hospital")
-	@PreAuthorize("hasRole('HOSPITAL')")
 	public String hospitalAccess() {
 		return "Hospital Content";
 	}
 
 	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
 	public String adminAccess() {
 		return "Admin Content";
 	}
