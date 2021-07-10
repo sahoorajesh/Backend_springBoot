@@ -48,9 +48,9 @@ public class User {
   @Size(min = 3, max = 50)
   private String district;
 
-//  @NotBlank
+  @NotBlank
   @Size(min = 3, max = 50)
-  private String hospstate;
+  private String hospaddress;
   
   @NotBlank
   @Size(max = 1000)
@@ -77,7 +77,7 @@ public class User {
   }
 
   public User(String hospname, String hospspec, 
-		  String district, String hospstate, 
+		  String district, String hospaddress, 
 		  String ownership, String year, 
 		  String email,String website, 
 		  String mobile,String about,
@@ -90,7 +90,7 @@ public class User {
     this.hospname = hospname;
     this.hospspec = hospspec;
     this.district = district;
-    this.hospstate = hospstate;
+    this.hospaddress = hospaddress;
     this.ownership = ownership;
     this.year = year;
     this.aboutus = about;
@@ -163,12 +163,12 @@ public class User {
       this.district = district;
   }
 
-  public String gethospState() {
-      return hospstate;
+  public String gethospAddress() {
+      return hospaddress;
   }
 
-  public void setState(String hospstate) {
-      this.hospstate = hospstate;
+  public void sethospAddress(String hospaddress) {
+      this.hospaddress = hospaddress;
   }
 
   public String getOwnership() {

@@ -23,9 +23,9 @@ public class SignupRequest {
     @Size(min = 3, max = 50)
     private String district;
  
-//    @NotBlank
+    @NotBlank
     @Size(min = 3, max = 50)
-    private String hospstate;
+    private String hospaddress;
     
     @NotBlank
     @Size(max = 1000)
@@ -91,12 +91,12 @@ public class SignupRequest {
         this.district = district;
     }
  
-    public String gethospState() {
-        return hospstate;
+    public String gethospAddress() {
+        return hospaddress;
     }
  
-    public void setState(String hospstate) {
-        this.hospstate = hospstate;
+    public void sethospAddress(String hospaddress) {
+        this.hospaddress = hospaddress;
     }
  
     public String getOwnership() {
