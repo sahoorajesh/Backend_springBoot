@@ -94,7 +94,9 @@ public class AuthController {
 							 signUpRequest.getEmail(),signUpRequest.getWebsite(),
 							 signUpRequest.getMobile(),signUpRequest.getAboutus(),
 							 signUpRequest.getUsername(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword()),
+							 signUpRequest.getshowButton(),signUpRequest.getshowDetails(),
+							 signUpRequest.getshowapproveStatus(),signUpRequest.getshowrejectStatus());
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		

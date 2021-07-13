@@ -19,6 +19,7 @@ public class User {
   @Id
   private String id;
 
+
   @NotBlank
   @Size(max = 20)
   private String username;
@@ -66,11 +67,14 @@ public class User {
   @Size(max=75)
   private String website;
 
+  private Boolean showdetails;
+  private Boolean showbutton;
+  private Boolean showapprovestatus;
+  private Boolean showrejectstatus;
   
   @NotBlank
   private String ownership;
   
-
   private String year;
   
   public User() {
@@ -81,7 +85,9 @@ public class User {
 		  String ownership, String year, 
 		  String email,String website, 
 		  String mobile,String about,
-		  String username,String password 
+		  String username,String password,
+		  Boolean showbutton,Boolean showdetails,
+		  Boolean showapprovestatus,Boolean showrejectstatus 
 		   ) {
 	  
     this.username = username;
@@ -96,7 +102,10 @@ public class User {
     this.aboutus = about;
     this.website = website;
     this.mobile = mobile;
-    
+    this.showbutton = showbutton;
+    this.showdetails = showdetails;
+    this.showapprovestatus = showapprovestatus;
+    this.showrejectstatus = showrejectstatus;
   }
 
   public String getId() {
@@ -210,5 +219,38 @@ public class User {
   public void setAboutus(String aboutus) {
       this.aboutus = aboutus;
   }
-	
+  
+  public Boolean getshowDetails() {
+      return showdetails;
+  }
+
+  public void setshowDetails(Boolean showdetails) {
+      this.showdetails = showdetails;
+  }
+  
+  public Boolean getshowButton() {
+      return showbutton;
+  }
+
+  public void setshowButton(Boolean showbutton) {
+      this.showbutton = showbutton;
+  }
+  
+  public Boolean getshowapproveStatus() {
+      return showapprovestatus;
+  }
+
+  public void setshowapproveStatus(Boolean showapproveStatus) {
+      this.showapprovestatus = showapproveStatus;
+  }
+  
+  public Boolean getshowrejectStatus() {
+      return showrejectstatus;
+  }
+
+  public void setshowrejectStatus(Boolean showrejectStatus) {
+      this.showrejectstatus = showrejectStatus;
+  }
+
+
 }

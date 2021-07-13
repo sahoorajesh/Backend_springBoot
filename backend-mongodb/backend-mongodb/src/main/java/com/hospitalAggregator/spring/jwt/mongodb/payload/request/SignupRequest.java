@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
  
 public class SignupRequest {
+	
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -50,14 +51,17 @@ public class SignupRequest {
     @NotBlank
     private String ownership;
     
-  
-//    @Min(value = 1800, message = "Year should not be less than 1800")
-//    @Max(value = 2021, message = "Year should not be greater than 2021")
+
     private String year;
     
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+    
+    private Boolean showdetails;
+    private Boolean showbutton;
+    private Boolean showapprovestatus;
+    private Boolean showrejectstatus;
   
     public String getUsername() {
         return username;
@@ -162,5 +166,38 @@ public class SignupRequest {
     public void setRole(Set<String> Roles) {
       this.roles = Roles;
     
-}
+    }
+    
+    public Boolean getshowDetails() {
+        return showdetails;
+    }
+ 
+    public void setshowDetails(Boolean showdetails) {
+        this.showdetails = showdetails;
+    }
+    
+    public Boolean getshowButton() {
+        return showbutton;
+    }
+ 
+    public void setshowButton(Boolean showbutton) {
+        this.showbutton = showbutton;
+    }
+    
+    public Boolean getshowapproveStatus() {
+        return showapprovestatus;
+    }
+ 
+    public void setshowapproveStatus(Boolean showapproveStatus) {
+        this.showapprovestatus = showapproveStatus;
+    }
+    
+    public Boolean getshowrejectStatus() {
+        return showrejectstatus;
+    }
+ 
+    public void setshowrejectStatus(Boolean showrejectStatus) {
+        this.showrejectstatus = showrejectStatus;
+    }
+    
 }
