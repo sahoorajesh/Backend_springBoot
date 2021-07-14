@@ -58,10 +58,10 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
     
-    private Boolean showdetails;
-    private Boolean showbutton;
-    private Boolean showapprovestatus;
-    private Boolean showrejectstatus;
+    private boolean showdetails;
+    private boolean showbutton;
+    private boolean showapprovestatus;
+    private boolean showrejectstatus;
   
     public String getUsername() {
         return username;
@@ -168,35 +168,35 @@ public class SignupRequest {
     
     }
     
-    public Boolean getshowDetails() {
+    public boolean getshowDetails() {
         return showdetails;
     }
  
-    public void setshowDetails(Boolean showdetails) {
+    public void setshowDetails(boolean showdetails) {
         this.showdetails = showdetails;
     }
     
-    public Boolean getshowButton() {
+    public boolean getshowButton() {
         return showbutton;
     }
  
-    public void setshowButton(Boolean showbutton) {
+    public void setshowButton(boolean showbutton) {
         this.showbutton = showbutton;
     }
     
-    public Boolean getshowapproveStatus() {
+    public boolean getshowapproveStatus() {
         return showapprovestatus;
     }
  
-    public void setshowapproveStatus(Boolean showapproveStatus) {
+    public void setshowapproveStatus(boolean showapproveStatus) {
         this.showapprovestatus = showapproveStatus;
     }
     
-    public Boolean getshowrejectStatus() {
+    public boolean getshowrejectStatus() {
         return showrejectstatus;
     }
  
-    public void setshowrejectStatus(Boolean showrejectStatus) {
+    public void setshowrejectStatus(boolean showrejectStatus) {
         this.showrejectstatus = showrejectStatus;
     }
     

@@ -31,6 +31,7 @@ import com.hospitalAggregator.spring.jwt.mongodb.payload.response.MessageRespons
 import com.hospitalAggregator.spring.jwt.mongodb.repository.RoleRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.repository.UserRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.JwtUtils;
+import com.hospitalAggregator.spring.jwt.mongodb.security.services.SequenceGeneratorService;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -45,6 +46,9 @@ public class AuthController {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	SequenceGeneratorService sequenceGeneratorService;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -123,6 +127,7 @@ public class AuthController {
 	
 
 		user.setRoles(roles);
+		user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("Hospital registered successfully!"));

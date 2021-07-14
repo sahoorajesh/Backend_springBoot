@@ -1,5 +1,7 @@
 package com.hospitalAggregator.spring.jwt.mongodb.security.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +22,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+
+		return UserDetailsImpl.build(user);
+	}
+	
+	
+	@Transactional
+	public UserDetails loadUserByStatus(boolean showdetails) {
+		List<User> user = userRepository.findByshowdetails(showdetails);
+				
+
+		return UserDetailsImpl.build(user);
+	}
+	
+	@Transactional
+	public UserDetails loadUserByHospspec(String hospspec) {
+		List<User> user = userRepository.findByhospspec(hospspec);
+				
 
 		return UserDetailsImpl.build(user);
 	}

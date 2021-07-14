@@ -10,14 +10,18 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "users")
 public class User {
+  @Transient
+  public static final String SEQUENCE_NAME = "users_sequence";
+
   @Id
-  private String id;
+  private long id;
 
 
   @NotBlank
@@ -67,10 +71,10 @@ public class User {
   @Size(max=75)
   private String website;
 
-  private Boolean showdetails;
-  private Boolean showbutton;
-  private Boolean showapprovestatus;
-  private Boolean showrejectstatus;
+  private boolean showdetails;
+  private boolean showbutton;
+  private boolean showapprovestatus;
+  private boolean showrejectstatus;
   
   @NotBlank
   private String ownership;
@@ -86,8 +90,8 @@ public class User {
 		  String email,String website, 
 		  String mobile,String about,
 		  String username,String password,
-		  Boolean showbutton,Boolean showdetails,
-		  Boolean showapprovestatus,Boolean showrejectstatus 
+		  boolean showbutton,boolean showdetails,
+		  boolean showapprovestatus,boolean showrejectstatus 
 		   ) {
 	  
     this.username = username;
@@ -108,11 +112,11 @@ public class User {
     this.showrejectstatus = showrejectstatus;
   }
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -220,35 +224,35 @@ public class User {
       this.aboutus = aboutus;
   }
   
-  public Boolean getshowDetails() {
+  public boolean getshowDetails() {
       return showdetails;
   }
 
-  public void setshowDetails(Boolean showdetails) {
+  public void setshowDetails(boolean showdetails) {
       this.showdetails = showdetails;
   }
   
-  public Boolean getshowButton() {
+  public boolean getshowButton() {
       return showbutton;
   }
 
-  public void setshowButton(Boolean showbutton) {
+  public void setshowButton(boolean showbutton) {
       this.showbutton = showbutton;
   }
   
-  public Boolean getshowapproveStatus() {
+  public boolean getshowapproveStatus() {
       return showapprovestatus;
   }
 
-  public void setshowapproveStatus(Boolean showapproveStatus) {
+  public void setshowapproveStatus(boolean showapproveStatus) {
       this.showapprovestatus = showapproveStatus;
   }
   
-  public Boolean getshowrejectStatus() {
+  public boolean getshowrejectStatus() {
       return showrejectstatus;
   }
 
-  public void setshowrejectStatus(Boolean showrejectStatus) {
+  public void setshowrejectStatus(boolean showrejectStatus) {
       this.showrejectstatus = showrejectStatus;
   }
 
