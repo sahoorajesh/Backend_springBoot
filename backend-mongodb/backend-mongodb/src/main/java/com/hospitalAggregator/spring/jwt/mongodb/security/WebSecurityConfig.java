@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.AuthEntryPointJwt;
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.AuthTokenFilter;
+import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsServiceImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsServiceImpl;
 
 @Configuration
@@ -27,6 +28,8 @@ import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsSe
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+	
+
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -40,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
-
+	
+	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -64,3 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }
+
+

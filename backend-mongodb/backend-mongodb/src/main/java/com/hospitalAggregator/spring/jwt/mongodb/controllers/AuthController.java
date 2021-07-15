@@ -21,16 +21,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hospitalAggregator.spring.jwt.mongodb.models.Admin;
 import com.hospitalAggregator.spring.jwt.mongodb.models.ERole;
 import com.hospitalAggregator.spring.jwt.mongodb.models.Role;
 import com.hospitalAggregator.spring.jwt.mongodb.models.User;
+import com.hospitalAggregator.spring.jwt.mongodb.payload.request.AdminLoginRequest;
+import com.hospitalAggregator.spring.jwt.mongodb.payload.request.AdminSignupRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.LoginRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.SignupRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.response.JwtResponse;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.response.MessageResponse;
 import com.hospitalAggregator.spring.jwt.mongodb.repository.RoleRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.repository.UserRepository;
+import com.hospitalAggregator.spring.jwt.mongodb.repository.AdminRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.JwtUtils;
+import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.SequenceGeneratorService;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsImpl;
 
@@ -43,6 +48,9 @@ public class AuthController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	AdminRepository adminRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -76,6 +84,29 @@ public class AuthController {
 												 userDetails.getEmail(), 
 												 roles));
 	}
+	
+	@PostMapping("/admin/signin")
+	public AdminDetailsImpl authenticateAdmin(@Valid @RequestBody AdminLoginRequest adminLoginRequest) {
+
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(adminLoginRequest.getUsername(), adminLoginRequest.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtTokenAdmin(authentication);
+		
+		AdminDetailsImpl adminDetails = (AdminDetailsImpl) authentication.getPrincipal();		
+		List<String> roles = adminDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+//
+//		return ResponseEntity.ok(new JwtResponse(jwt, 
+//												 adminDetails.getId(), 
+//												 adminDetails.getUsername(), 
+//												 adminDetails.getEmail(), 
+//												 roles));
+		return adminDetails;
+	}
+	
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -132,6 +163,61 @@ public class AuthController {
 
 		return ResponseEntity.ok(new MessageResponse("Hospital registered successfully!"));
 	}
+	
+	
 
 //	
+	
+
+	@PostMapping("/admin/signup")
+	public ResponseEntity<?> registerAdmin(@Valid @RequestBody AdminSignupRequest adminSignUpRequest) {
+		if (adminRepository.existsByUsername(adminSignUpRequest.getUsername())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Username is already taken!"));
+		}
+
+		if (adminRepository.existsByEmail(adminSignUpRequest.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email is already registered"));
+		}
+
+		// Create new user's account
+		Admin admin = new Admin(
+							 adminSignUpRequest.getEmail(),
+							 adminSignUpRequest.getUsername(),
+							 encoder.encode(adminSignUpRequest.getPassword())
+							 );
+
+		Set<String> strRoles = adminSignUpRequest.getRoles();
+		
+		Set<Role> roles = new HashSet<>();
+
+		
+		strRoles.forEach(role -> {
+			switch (role) {
+			case "admin":
+				Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				roles.add(adminRole);
+
+				break;
+			case "hospital":
+				Role modRole = roleRepository.findByName(ERole.ROLE_HOSPITAL_USER)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				roles.add(modRole);
+
+				break;
+			
+			}
+		});
+	
+
+		admin.setRoles(roles);
+		admin.setId(sequenceGeneratorService.generateSequence(Admin.SEQUENCE_NAME));
+		adminRepository.save(admin);
+
+		return ResponseEntity.ok(new MessageResponse("Admin registered successfully!"));
+	}
 }

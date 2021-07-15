@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 
@@ -27,6 +28,18 @@ public class JwtUtils {
 
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
+				.setIssuedAt(new Date())
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.compact();
+	}
+	
+	public String generateJwtTokenAdmin(Authentication authentication) {
+
+		AdminDetailsImpl adminPrincipal = (AdminDetailsImpl) authentication.getPrincipal();
+
+		return Jwts.builder()
+				.setSubject((adminPrincipal.getUsername()))
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
