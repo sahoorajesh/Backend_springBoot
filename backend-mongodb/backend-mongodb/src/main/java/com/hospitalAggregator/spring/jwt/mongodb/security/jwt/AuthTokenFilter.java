@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsServiceImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsServiceImpl;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -25,7 +26,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
-
+//
+//  @Autowired
+//  private AdminDetailsServiceImpl adminDetailsService;
+  
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
   @Override
@@ -50,6 +54,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
 
