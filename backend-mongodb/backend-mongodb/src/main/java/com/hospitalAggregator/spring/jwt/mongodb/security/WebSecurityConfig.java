@@ -40,24 +40,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
-//
-//	@Bean
-//	public AuthTokenFilterAdmin authenticationJwtTokenFilterAdmin() {
-//		return new AuthTokenFilterAdmin();
-//	}
+
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-//	@Configuration
-//    @Order(1)
-//	public class HospitalWebSecurityConfig extends WebSecurityConfigurerAdapter {
-//		
-//		public HospitalWebSecurityConfig() {
-//            super();
-//        }
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;
 
@@ -69,8 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	@Qualifier("myauth")
-//	@Override
-//	@Primary
 	public AuthenticationManager authenticationManagerhospital() throws Exception {
 		return authenticationManager();
 	}
@@ -86,48 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-		
-//	}
-	
-	
-	
-	
-//
-//	@Configuration
-//    @Order(1)
-//	public class AdminWebSecurityConfig extends WebSecurityConfigurerAdapter {
-//		@Autowired
-//		AdminDetailsServiceImpl adminDetailsServiceImpl;
-//		
-//		public AdminWebSecurityConfig() {
-//            super();
-//        }
-//
-//		@Override
-//		public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//			authenticationManagerBuilder.userDetailsService(adminDetailsServiceImpl).passwordEncoder(passwordEncoder());
-//		}
-//		
-//		@Bean
-//		@Primary
-//		public AuthenticationManager authenticationManagerAdmin() throws Exception {
-//			return authenticationManager();
-//		}
-//		
-//		@Override
-//		protected void configure(HttpSecurity http) throws Exception {
-//			http.cors().and().csrf().disable()
-//				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//				.authorizeRequests().antMatchers("/api/test/**").permitAll()
-//				.antMatchers("/api/test/**").permitAll()
-//				.anyRequest().authenticated();
-//
-//			http.addFilterBefore(authenticationJwtTokenFilterAdmin(), UsernamePasswordAuthenticationFilter.class);
-//		}
-//		
-//	}
-	
+
 	
 }
 
