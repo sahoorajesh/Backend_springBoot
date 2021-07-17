@@ -43,13 +43,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
 	@Autowired
-	AuthenticationManager authenticationManager;
+	AuthenticationManager authenticationManageradmin;
 
 	@Autowired
 	AdminRepository adminRepository;
@@ -148,7 +148,7 @@ public class TestController {
 	@PostMapping("/admin/signin")
 	public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody AdminLoginRequest adminLoginRequest) {
 
-		Authentication authentication = authenticationManager.authenticate(
+		Authentication authentication = authenticationManageradmin.authenticate(
 				new UsernamePasswordAuthenticationToken(adminLoginRequest.getUsername(), adminLoginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -164,6 +164,9 @@ public class TestController {
 												 adminDetails.getUsername(), 
 												 adminDetails.getEmail(), 
 												 roles));
+		
+//		return ResponseEntity.ok(authentication);
+		
 	}
 	
 

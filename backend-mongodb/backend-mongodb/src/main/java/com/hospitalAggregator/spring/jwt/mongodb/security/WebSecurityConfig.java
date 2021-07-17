@@ -1,6 +1,7 @@
 package com.hospitalAggregator.spring.jwt.mongodb.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.AuthEntryPointJwt;
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.AuthTokenFilter;
+import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.AuthTokenFilterAdmin;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsServiceImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsServiceImpl;
 
@@ -27,6 +29,7 @@ import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsSe
 		// securedEnabled = true,
 		// jsr250Enabled = true,
 		prePostEnabled = true)
+@Order(2)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 
@@ -37,85 +40,93 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
+//
+//	@Bean
+//	public AuthTokenFilterAdmin authenticationJwtTokenFilterAdmin() {
+//		return new AuthTokenFilterAdmin();
+//	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	@Configuration
-    @Order(2)
-	public class HospitalWebSecurityConfig extends WebSecurityConfigurerAdapter {
-		
-		public HospitalWebSecurityConfig() {
-            super();
-        }
-		@Autowired
-		UserDetailsServiceImpl userDetailsServiceImpl;
+	
+//	@Configuration
+//    @Order(1)
+//	public class HospitalWebSecurityConfig extends WebSecurityConfigurerAdapter {
+//		
+//		public HospitalWebSecurityConfig() {
+//            super();
+//        }
+	@Autowired
+	UserDetailsServiceImpl userDetailsServiceImpl;
 
 
-		@Override
-		public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-			authenticationManagerBuilder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-		}
-		
-		@Bean
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
-		}
-		
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.cors().and().csrf().disable()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeRequests().antMatchers("/api/**").permitAll()
-				.antMatchers("/api/**").permitAll()
-				.anyRequest().authenticated();
-
-			http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		}
-		
+	@Override
+	public void configure(AuthenticationManagerBuilder authenticationManager) throws Exception {
+		authenticationManager.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
 	}
 	
-	
-	
-	
-
-	@Configuration
-    @Order(1)
-	public class AdminWebSecurityConfig extends WebSecurityConfigurerAdapter {
-		@Autowired
-		AdminDetailsServiceImpl adminDetailsServiceImpl;
-		
-		public AdminWebSecurityConfig() {
-            super();
-        }
-
-		@Override
-		public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-			authenticationManagerBuilder.userDetailsService(adminDetailsServiceImpl).passwordEncoder(passwordEncoder());
-		}
-		
-		@Bean
-		@Primary
-		public AuthenticationManager authenticationManagerAdmin() throws Exception {
-			return authenticationManager();
-		}
-		
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.cors().and().csrf().disable()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeRequests().antMatchers("/api/test/**").permitAll()
-				.antMatchers("/api/test/**").permitAll()
-				.anyRequest().authenticated();
-
-			http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		}
-		
+	@Bean
+	@Qualifier("myauth")
+//	@Override
+//	@Primary
+	public AuthenticationManager authenticationManagerhospital() throws Exception {
+		return authenticationManager();
 	}
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().and().csrf().disable()
+			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
+			.antMatchers("/api/auth/**").permitAll()
+			.anyRequest().authenticated();
+
+		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+	}
+		
+//	}
+	
+	
+	
+	
+//
+//	@Configuration
+//    @Order(1)
+//	public class AdminWebSecurityConfig extends WebSecurityConfigurerAdapter {
+//		@Autowired
+//		AdminDetailsServiceImpl adminDetailsServiceImpl;
+//		
+//		public AdminWebSecurityConfig() {
+//            super();
+//        }
+//
+//		@Override
+//		public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//			authenticationManagerBuilder.userDetailsService(adminDetailsServiceImpl).passwordEncoder(passwordEncoder());
+//		}
+//		
+//		@Bean
+//		@Primary
+//		public AuthenticationManager authenticationManagerAdmin() throws Exception {
+//			return authenticationManager();
+//		}
+//		
+//		@Override
+//		protected void configure(HttpSecurity http) throws Exception {
+//			http.cors().and().csrf().disable()
+//				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//				.authorizeRequests().antMatchers("/api/test/**").permitAll()
+//				.antMatchers("/api/test/**").permitAll()
+//				.anyRequest().authenticated();
+//
+//			http.addFilterBefore(authenticationJwtTokenFilterAdmin(), UsernamePasswordAuthenticationFilter.class);
+//		}
+//		
+//	}
 	
 	
 }

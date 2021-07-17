@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.hospitalAggregator.spring.jwt.mongodb.models.Admin;
 import com.hospitalAggregator.spring.jwt.mongodb.models.ERole;
@@ -39,11 +40,14 @@ import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsI
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.SequenceGeneratorService;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.UserDetailsImpl;
 
+//import org.springframework.context.annotation.Primary;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
+	@Qualifier("myauth")
 	AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -83,6 +87,8 @@ public class AuthController {
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
 												 roles));
+		
+//		return ResponseEntity.status(401).body(authentication);
 	}
 	
 	
