@@ -26,8 +26,10 @@ import com.hospitalAggregator.spring.jwt.mongodb.models.Admin;
 import com.hospitalAggregator.spring.jwt.mongodb.models.ERole;
 import com.hospitalAggregator.spring.jwt.mongodb.models.Role;
 import com.hospitalAggregator.spring.jwt.mongodb.models.User;
+import com.hospitalAggregator.spring.jwt.mongodb.models.Enquiry;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.AdminLoginRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.AdminSignupRequest;
+import com.hospitalAggregator.spring.jwt.mongodb.payload.request.EnquiryRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.LoginRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.request.SignupRequest;
 import com.hospitalAggregator.spring.jwt.mongodb.payload.response.JwtResponse;
@@ -35,6 +37,7 @@ import com.hospitalAggregator.spring.jwt.mongodb.payload.response.MessageRespons
 import com.hospitalAggregator.spring.jwt.mongodb.repository.RoleRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.repository.UserRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.repository.AdminRepository;
+import com.hospitalAggregator.spring.jwt.mongodb.repository.EnquiryRepository;
 import com.hospitalAggregator.spring.jwt.mongodb.security.jwt.JwtUtils;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.AdminDetailsImpl;
 import com.hospitalAggregator.spring.jwt.mongodb.security.services.SequenceGeneratorService;
@@ -56,6 +59,10 @@ public class AuthController {
 	@Autowired
 	AdminRepository adminRepository;
 
+	@Autowired
+	EnquiryRepository enquiryRepository;
+
+	
 	@Autowired
 	RoleRepository roleRepository;
 	
@@ -152,5 +159,23 @@ public class AuthController {
 	
 
 //	
+	
+	@PostMapping("/enquiry")
+	public ResponseEntity<?> Enquiry(@Valid @RequestBody EnquiryRequest enquiryRequest) {
+
+		// Create new user's account
+		Enquiry enquiry = new Enquiry(enquiryRequest.getName(),enquiryRequest.getAddress(),
+							 enquiryRequest.getEmail(), enquiryRequest.getMobile(),
+							 enquiryRequest.getQuery()
+							 );
+
+		enquiry.setId(sequenceGeneratorService.generateSequence(Enquiry.SEQUENCE_NAME));
+		enquiryRepository.save(enquiry);
+
+		return ResponseEntity.ok(new MessageResponse("Enquiry Submitted successfully!"));
+	}
+	
+	
+
 	
 }
