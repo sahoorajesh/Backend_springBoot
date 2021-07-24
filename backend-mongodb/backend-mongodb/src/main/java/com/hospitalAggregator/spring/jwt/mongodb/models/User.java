@@ -14,6 +14,9 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 @Document(collection = "users")
 public class User {
@@ -35,9 +38,11 @@ public class User {
 
   @NotBlank
   @Size(max = 120)
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String password;
 
   @DBRef
+  @JsonProperty(access = Access.WRITE_ONLY)
   private Set<Role> roles = new HashSet<>();
 //  private String roles;
   
@@ -71,6 +76,7 @@ public class User {
   @Size(max=75)
   private String website;
 
+  
   private boolean showdetails;
   private boolean showbutton;
   private boolean showapprovestatus;
@@ -80,6 +86,9 @@ public class User {
   private String ownership;
   
   private String year;
+  
+  @Size(min = 3, max = 100)
+  private String imagelink;
   
   public User() {
   }
@@ -91,7 +100,8 @@ public class User {
 		  String mobile,String about,
 		  String username,String password,
 		  boolean showbutton,boolean showdetails,
-		  boolean showapprovestatus,boolean showrejectstatus 
+		  boolean showapprovestatus,boolean showrejectstatus,
+		  String imagelink
 		   ) {
 	  
     this.username = username;
@@ -110,6 +120,7 @@ public class User {
     this.showdetails = showdetails;
     this.showapprovestatus = showapprovestatus;
     this.showrejectstatus = showrejectstatus;
+    this.imagelink = imagelink;
   }
 
   public long getId() {
@@ -143,6 +154,15 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
+  
+  public String getImagelink() {
+	    return imagelink;
+	  }
+
+  public void setImagelink(String imagelink) {
+    this.imagelink = imagelink;
+  }
+
 
   public Set<Role> getRoles() {
     return roles;

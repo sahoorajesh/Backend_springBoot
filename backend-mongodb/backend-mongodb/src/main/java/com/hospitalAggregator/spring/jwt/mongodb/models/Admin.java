@@ -14,6 +14,9 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 @Document(collection = "admin")
 public class Admin {
@@ -24,6 +27,7 @@ public class Admin {
   private long id;
 
   @DBRef
+  @JsonProperty(access = Access.WRITE_ONLY)
   private Set<Role> roles = new HashSet<>();
   
   @NotBlank
@@ -37,6 +41,7 @@ public class Admin {
 
   @NotBlank
   @Size(max = 120)
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String password;
   
   public Admin() {

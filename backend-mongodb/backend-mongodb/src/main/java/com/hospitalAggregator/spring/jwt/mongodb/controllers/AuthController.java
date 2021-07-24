@@ -123,7 +123,8 @@ public class AuthController {
 							 signUpRequest.getUsername(),
 							 encoder.encode(signUpRequest.getPassword()),
 							 signUpRequest.getshowButton(),signUpRequest.getshowDetails(),
-							 signUpRequest.getshowapproveStatus(),signUpRequest.getshowrejectStatus());
+							 signUpRequest.getshowapproveStatus(),signUpRequest.getshowrejectStatus(),
+							 signUpRequest.getImagelink());
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		

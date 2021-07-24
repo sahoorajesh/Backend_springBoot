@@ -62,6 +62,9 @@ public class SignupRequest {
     private boolean showbutton;
     private boolean showapprovestatus;
     private boolean showrejectstatus;
+    
+    @Size(min = 3, max = 100)
+    private String imagelink;
   
     public String getUsername() {
         return username;
@@ -200,4 +203,12 @@ public class SignupRequest {
         this.showrejectstatus = showrejectStatus;
     }
     
+    public String getImagelink() {
+	    return imagelink;
+	  }
+
+    public void setImagelink(String imagelink) {
+	    this.imagelink = imagelink;
+	  }
+
 }

@@ -103,7 +103,7 @@ public class TestController {
 	    if (hospitals.isEmpty()) {
 	      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
-
+	    
 	    return new ResponseEntity<>(hospitals, HttpStatus.OK);
 	  } catch (Exception e) {
 	    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
